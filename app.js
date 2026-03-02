@@ -257,6 +257,14 @@ function cartRow(it){
 
 /* Overlay + drawer */
 function openOverlay(){ els.overlay.hidden = false; }
+
+function closeAll(){
+  els.drawer.hidden = true;
+  els.productModal.hidden = true;
+  els.overlay.hidden = true;
+  state.openProductId = null;
+}
+
 function closeOverlayIfNothingOpen(){
   const somethingOpen = !els.drawer.hidden || !els.productModal.hidden;
   if(!somethingOpen) els.overlay.hidden = true;
@@ -301,10 +309,7 @@ function wire(){
   });
   els.closeProduct.addEventListener("click", closeProduct);
 
-  els.overlay.addEventListener("click", ()=>{
-    if(!els.productModal.hidden) closeProduct();
-    if(!els.drawer.hidden) closeCart();
-  });
+  els.overlay.addEventListener("click", closeAll);
 
   els.checkoutBtn.addEventListener("click", ()=>{
     if(state.cart.length === 0) return;
@@ -314,9 +319,7 @@ function wire(){
   });
 
   document.addEventListener("keydown", (e)=>{
-    if(e.key !== "Escape") return;
-    if(!els.productModal.hidden) return closeProduct();
-    if(!els.drawer.hidden) return closeCart();
+    if(e.key === "Escape") closeAll();
   });
 }
 
