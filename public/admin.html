@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin • ThriftMart</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="logo" href="/">ThriftMart</a>
+      <span class="muted">Admin Produk</span>
+      <a class="btn" href="/">Kembali</a>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding:18px 0 28px;">
+    <section class="panel">
+      <h3 style="margin:0 0 10px;">Tambah Produk</h3>
+      <form id="addForm">
+        <div class="formRow">
+          <div class="input"><label>Judul</label><input id="t" required></div>
+          <div class="input"><label>Brand</label><input id="b" required></div>
+        </div>
+        <div class="formRow" style="margin-top:10px;">
+          <div class="input"><label>Kategori</label><input id="c" required></div>
+          <div class="input"><label>Ukuran</label><input id="s" required></div>
+        </div>
+        <div class="formRow" style="margin-top:10px;">
+          <div class="input"><label>Kondisi</label><input id="k" required></div>
+          <div class="input"><label>Harga</label><input id="p" type="number" required></div>
+        </div>
+        <div class="formRow" style="margin-top:10px;">
+          <div class="input"><label>Stock</label><input id="st" type="number" required value="1"></div>
+          <div class="input"><label>Deskripsi</label><input id="d" required></div>
+        </div>
+        <button class="btn primary" style="margin-top:12px;" type="submit">Simpan</button>
+      </form>
+    </section>
+
+    <section style="margin-top:18px;">
+      <h3 style="margin:0 0 10px;">Daftar Produk</h3>
+      <div id="list" class="muted">Loading...</div>
+    </section>
+  </main>
+
+  <script>
+    const list = document.getElementById("list");
+    const f = (id)=>document.getElementById(id);
+
+    async function api(url, opts={}){
+      const res = await fetch(url, opts);
+      const data = await res.json().catch(()=> ({}));
+      if(!res.ok) throw new Error(data.error || "Request failed");
+      return data;
+    }
+
+    function row(p){
+      return `
+        <div class="cartItem" style="align-items:center;">
+          <div style="flex:1;">
+            <div class="cartTitle">${p.title}</div>
+            <div class="cartMeta">${p.brand} • ${p.category} • Size ${p.size} • ${p.condition}</div>
+            <div class="cartMeta">Harga: ${p.price} • Stock: ${p.stock}</div>
+          </div>
+          <button class="btn" data-del="${p.id}">Hapus</button>
+        </div>
+      `;
+    }
+
+    async function load(){
+      const items = await api("/api/admin/products");
+      list.innerHTML = items.map(row).join("") || "<div class='muted'>Kosong</div>";
+      document.querySelectorAll("[data-del]").forEach(btn=>{
+        btn.addEventListener("click", async ()=>{
+          const id = btn.getAttribute("data-del");
+          if(!confirm("Hapus produk ini?")) return;
+          await api(`/api/admin/products/${id}`, { method:"DELETE" });
+          await load();
+        });
+      });
+    }
+
+    document.getElementById("addForm").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      await api("/api/admin/products", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({
+          title: f("t").value,
+          brand: f("b").value,
+          category: f("c").value,
+          size: f("s").value,
+          condition: f("k").value,
+          price: Number(f("p").value),
+          stock: Number(f("st").value),
+          description: f("d").value
+        })
+      });
+      e.target.reset();
+      await load();
+    });
+
+    load();
+  </script>
+</body>
+</html>
