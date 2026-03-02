@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ThriftMart</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="logo" href="/">ThriftMart</a>
+
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Cari produk..." />
+      </div>
+
+      <button class="cartBtn" id="openCart" type="button">
+        Keranjang <span class="count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="filters">
+        <select id="categoryFilter"><option value="all">Semua Kategori</option></select>
+        <select id="sizeFilter"><option value="all">Semua Ukuran</option></select>
+        <select id="sortSelect">
+          <option value="newest">Terbaru</option>
+          <option value="priceAsc">Harga Termurah</option>
+          <option value="priceDesc">Harga Termahal</option>
+        </select>
+        <button class="btn" id="resetBtn" type="button">Reset</button>
+      </div>
+    </section>
+
+    <section class="grid" id="productGrid" aria-live="polite"></section>
+
+    <section class="empty" id="emptyState" hidden>
+      <p>Produk tidak ditemukan.</p>
+      <button class="btn primary" id="emptyReset" type="button">Reset Filter</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span>© <span id="year"></span> ThriftMart</span>
+      <a class="muted" href="/admin.html">Admin</a>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="cartDrawer" hidden>
+    <div class="drawer__head">
+      <strong>Keranjang</strong>
+      <button class="icon" id="closeCart" type="button" aria-label="Tutup">✕</button>
+    </div>
+    <div class="drawer__body" id="cartItems"></div>
+    <div class="drawer__foot">
+      <div class="row">
+        <span class="muted">Subtotal</span>
+        <strong id="cartSubtotal">Rp 0</strong>
+      </div>
+
+      <button class="btn primary full" id="checkoutOpen" type="button">Checkout</button>
+      <button class="btn full" id="clearBtn" type="button">Kosongkan</button>
+      <p class="muted small">Pembayaran & pengiriman dapat kamu lanjutkan integrasi.</p>
+    </div>
+  </aside>
+
+  <section class="modal" id="productModal" hidden aria-modal="true" role="dialog">
+    <div class="modal__head">
+      <strong id="pmTitle">Detail Produk</strong>
+      <button class="icon" id="closeProduct" type="button" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal__body">
+      <div class="pm">
+        <div class="pm__img" aria-hidden="true"></div>
+        <div>
+          <div class="pm__meta" id="pmMeta">—</div>
+          <div class="pm__price" id="pmPrice">—</div>
+          <p class="muted" id="pmDesc">—</p>
+          <button class="btn primary" id="pmAdd" type="button">Tambah ke Keranjang</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="checkoutModal" hidden aria-modal="true" role="dialog">
+    <div class="modal__head">
+      <strong>Checkout</strong>
+      <button class="icon" id="closeCheckout" type="button" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal__body">
+      <form id="checkoutForm">
+        <div class="formRow">
+          <div class="input">
+            <label>Nama</label>
+            <input id="coName" required />
+          </div>
+          <div class="input">
+            <label>No. HP</label>
+            <input id="coPhone" required />
+          </div>
+        </div>
+
+        <div class="input" style="margin-top:10px;">
+          <label>Alamat</label>
+          <textarea id="coAddr" rows="3" required></textarea>
+        </div>
+
+        <button class="btn primary full" style="margin-top:12px;" type="submit">Buat Pesanan</button>
+        <p class="muted small" id="coNote" style="margin-top:8px;"></p>
+      </form>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
