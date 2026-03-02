@@ -174,7 +174,7 @@
       box-shadow: var(--shadow);
       display:flex; flex-direction:column;
     }
-    .drawer__head{
+    .drawer__head{ position: relative; z-index: 1; }
       display:flex; justify-content:space-between; align-items:center;
       padding:14px; border-bottom:1px solid var(--line);
     }
@@ -303,7 +303,7 @@
   <aside class="drawer" id="cartDrawer" hidden>
     <div class="drawer__head">
       <strong>Keranjang</strong>
-      <button class="icon" id="closeCart" type="button" aria-label="Tutup" onClick="closeAll()">✕</button>
+      <button class="icon" id="closeCart" type="button" aria-label="Tutup">✕</button>
     </div>
 
     <div class="drawer__body" id="cartItems"></div>
@@ -647,7 +647,10 @@
       els.emptyReset.addEventListener("click", resetAll);
 
       els.openCart.addEventListener("click", openCart);
-      els.closeCart.addEventListener("click", closeCart);     // ✅ X keranjang
+      els.closeCart.addEventListener("click", (e) => {
+        e.stopPropagation();     // penting biar click nggak “nyampe” ke overlay
+        closeAll();              // tutup semuanya sekalian (paling stabil)
+      });
       els.clearBtn.addEventListener("click", clearCart);
 
       els.pmAdd.addEventListener("click", ()=>{
