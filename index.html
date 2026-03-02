@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Thriftly — demo website thrifting modern: cari, filter, dan checkout dengan keranjang." />
+  <title>Thriftly — Toko Thrifting (Demo)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <!-- Top Announcement -->
+  <div class="announce" role="status">
+    <div class="container announce__inner">
+      <span>✨ Demo store: Thrifting berkualitas, harga bersahabat.</span>
+      <a class="link" href="#koleksi">Lihat Koleksi</a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a class="brand" href="#top" aria-label="Thriftly Home">
+        <span class="brand__mark">T</span>
+        <span class="brand__text">Thriftly</span>
+        <span class="badge">DEMO</span>
+      </a>
+
+      <nav class="nav" aria-label="Navigasi utama">
+        <a href="#koleksi">Koleksi</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+        <a href="#faq">FAQ</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+
+      <div class="header__actions">
+        <button class="btn btn--ghost" id="btnOpenSearch" type="button" aria-label="Buka pencarian">
+          🔎 <span class="hide-sm">Cari</span>
+        </button>
+        <button class="btn btn--primary" id="btnOpenCart" type="button" aria-label="Buka keranjang">
+          🛒 <span class="hide-sm">Keranjang</span>
+          <span class="pill" id="cartCount">0</span>
+        </button>
+      </div>
+
+      <button class="hamburger" id="btnMenu" type="button" aria-label="Buka menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile nav -->
+    <div class="mobileNav" id="mobileNav" hidden>
+      <div class="container mobileNav__inner">
+        <a href="#koleksi">Koleksi</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+        <a href="#faq">FAQ</a>
+        <a href="#kontak">Kontak</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main>
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <h1>Thrifting modern, tampil <span class="grad">lebih hemat</span> & <span class="grad">lebih gaya</span>.</h1>
+          <p>
+            Demo website toko thrifting dengan pencarian, filter, detail produk, dan keranjang belanja.
+            Data produk bersifat contoh.
+          </p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#koleksi">Belanja Sekarang</a>
+            <button class="btn btn--ghost" id="btnOpenGuide" type="button">Panduan Ukuran</button>
+          </div>
+
+          <div class="hero__stats" role="list">
+            <div class="stat" role="listitem">
+              <div class="stat__num">4.8/5</div>
+              <div class="stat__label">Rating pelanggan (demo)</div>
+            </div>
+            <div class="stat" role="listitem">
+              <div class="stat__num">1–2 hari</div>
+              <div class="stat__label">Proses kirim</div>
+            </div>
+            <div class="stat" role="listitem">
+              <div class="stat__num">QC</div>
+              <div class="stat__label">Cek kondisi</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__card" aria-label="Highlight">
+          <div class="card">
+            <div class="card__top">
+              <span class="chip">New Drop</span>
+              <span class="chip chip--soft">100% Demo</span>
+            </div>
+            <div class="card__img" id="featuredImg" aria-hidden="true"></div>
+            <div class="card__body">
+              <h3 id="featuredTitle">—</h3>
+              <p class="muted" id="featuredMeta">—</p>
+              <div class="card__bottom">
+                <div>
+                  <div class="price" id="featuredPrice">—</div>
+                  <div class="muted small" id="featuredCond">—</div>
+                </div>
+                <button class="btn btn--primary" id="btnFeaturedAdd" type="button">Tambah</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero__bg" aria-hidden="true"></div>
+    </section>
+
+    <!-- Collection -->
+    <section class="section" id="koleksi">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <h2>Koleksi Terbaru</h2>
+            <p class="muted">Gunakan search, filter kategori, ukuran, kondisi, dan urutkan harga.</p>
+          </div>
+          <div class="section__tools">
+            <div class="input">
+              <label for="searchInput" class="sr">Cari produk</label>
+              <input id="searchInput" type="search" placeholder="Cari: jaket, nike, kemeja..." autocomplete="off" />
+            </div>
+
+            <div class="select">
+              <label for="categoryFilter" class="sr">Kategori</label>
+              <select id="categoryFilter">
+                <option value="all">Semua Kategori</option>
+              </select>
+            </div>
+
+            <div class="select">
+              <label for="sizeFilter" class="sr">Ukuran</label>
+              <select id="sizeFilter">
+                <option value="all">Semua Ukuran</option>
+              </select>
+            </div>
+
+            <div class="select">
+              <label for="sortSelect" class="sr">Urutkan</label>
+              <select id="sortSelect">
+                <option value="recommended">Rekomendasi</option>
+                <option value="priceAsc">Harga: Termurah</option>
+                <option value="priceDesc">Harga: Termahal</option>
+                <option value="newest">Terbaru</option>
+              </select>
+            </div>
+
+            <button class="btn btn--ghost" id="btnReset" type="button">Reset</button>
+          </div>
+        </div>
+
+        <div class="grid" id="productGrid" aria-live="polite"></div>
+
+        <div class="empty" id="emptyState" hidden>
+          <h3>Produk tidak ditemukan</h3>
+          <p class="muted">Coba kata kunci lain atau reset filter.</p>
+          <button class="btn btn--primary" id="btnEmptyReset" type="button">Reset Filter</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section section--soft" id="cara-kerja">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <h2>Cara Kerja</h2>
+            <p class="muted">Alur belanja sederhana untuk demo (bisa kamu kembangkan ke sistem backend).</p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step__num">1</div>
+            <h3>Pilih Produk</h3>
+            <p class="muted">Lihat detail, ukuran, kondisi, dan foto (di demo ini pakai placeholder).</p>
+          </div>
+          <div class="step">
+            <div class="step__num">2</div>
+            <h3>Masukkan Keranjang</h3>
+            <p class="muted">Keranjang tersimpan di browser dengan <code>localStorage</code>.</p>
+          </div>
+          <div class="step">
+            <div class="step__num">3</div>
+            <h3>Checkout</h3>
+            <p class="muted">Isi alamat & metode bayar (simulasi). Cocok untuk presentasi/portofolio.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <h2>FAQ</h2>
+            <p class="muted">Pertanyaan umum untuk toko thrifting.</p>
+          </div>
+        </div>
+
+        <div class="faq">
+          <details>
+            <summary>Apakah produk thrifting bisa retur?</summary>
+            <p class="muted">Untuk demo: kebijakan retur bisa kamu atur (misalnya 1x24 jam jika tidak sesuai deskripsi).</p>
+          </details>
+          <details>
+            <summary>Bagaimana kondisi barang dinilai?</summary>
+            <p class="muted">Gunakan kategori: Like New, Very Good, Good, Fair. Sertakan catatan defect bila ada.</p>
+          </details>
+          <details>
+            <summary>Apakah website ini sudah pakai backend?</summary>
+            <p class="muted">Belum. Ini versi contoh profesional berbasis frontend. Bisa ditambah API/DB kapan saja.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section section--soft" id="kontak">
+      <div class="container contact">
+        <div>
+          <h2>Kontak</h2>
+          <p class="muted">Butuh versi dengan login admin + dashboard? Bisa aku rapikan ke React/Next + API.</p>
+          <div class="contact__cards">
+            <div class="miniCard">
+              <div class="miniCard__title">Email</div>
+              <div class="muted">hello@thriftly.demo</div>
+            </div>
+            <div class="miniCard">
+              <div class="miniCard__title">Instagram</div>
+              <div class="muted">@thriftly.demo</div>
+            </div>
+            <div class="miniCard">
+              <div class="miniCard__title">Jam Operasional</div>
+              <div class="muted">Senin–Sabtu, 10.00–18.00</div>
+            </div>
+          </div>
+        </div>
+
+        <form class="form" id="contactForm">
+          <div class="form__row">
+            <div class="input">
+              <label for="name">Nama</label>
+              <input id="name" required placeholder="Nama kamu" />
+            </div>
+            <div class="input">
+              <label for="email">Email</label>
+              <input id="email" type="email" required placeholder="nama@email.com" />
+            </div>
+          </div>
+
+          <div class="input">
+            <label for="message">Pesan</label>
+            <textarea id="message" rows="4" required placeholder="Tulis pesan..."></textarea>
+          </div>
+
+          <button class="btn btn--primary" type="submit">Kirim</button>
+          <p class="muted small">Form ini demo—pesan akan tampil sebagai notifikasi.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <div class="brand brand--footer">
+          <span class="brand__mark">T</span>
+          <span class="brand__text">Thriftly</span>
+        </div>
+        <p class="muted small">© <span id="year"></span> Thriftly (Demo). Dibuat untuk contoh profesional.</p>
+      </div>
+      <div class="footer__links">
+        <a href="#top">Kembali ke atas</a>
+        <a href="#koleksi">Koleksi</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modals / Drawers -->
+  <div class="overlay" id="overlay" hidden></div>
+
+  <!-- Search modal -->
+  <section class="modal" id="searchModal" role="dialog" aria-modal="true" aria-label="Pencarian" hidden>
+    <div class="modal__head">
+      <h3>Cari Produk</h3>
+      <button class="iconBtn" id="btnCloseSearch" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal__body">
+      <div class="input">
+        <label class="sr" for="searchModalInput">Cari</label>
+        <input id="searchModalInput" type="search" placeholder="Ketik nama brand / item..." />
+      </div>
+      <p class="muted small">Tip: coba “nike”, “denim”, “hoodie”.</p>
+    </div>
+  </section>
+
+  <!-- Guide modal -->
+  <section class="modal" id="guideModal" role="dialog" aria-modal="true" aria-label="Panduan ukuran" hidden>
+    <div class="modal__head">
+      <h3>Panduan Ukuran (Demo)</h3>
+      <button class="iconBtn" id="btnCloseGuide" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal__body">
+      <div class="tableWrap">
+        <table class="table">
+          <thead>
+            <tr><th>Ukuran</th><th>Dada (cm)</th><th>Panjang (cm)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>S</td><td>90–96</td><td>65–69</td></tr>
+            <tr><td>M</td><td>97–103</td><td>70–73</td></tr>
+            <tr><td>L</td><td>104–110</td><td>74–77</td></tr>
+            <tr><td>XL</td><td>111–118</td><td>78–82</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small">Ini hanya contoh. Untuk thrifting, sebaiknya tampilkan ukuran aktual per item.</p>
+    </div>
+  </section>
+
+  <!-- Product modal -->
+  <section class="modal" id="productModal" role="dialog" aria-modal="true" aria-label="Detail produk" hidden>
+    <div class="modal__head">
+      <h3 id="pmTitle">Detail</h3>
+      <button class="iconBtn" id="btnCloseProduct" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal__body">
+      <div class="pm">
+        <div class="pm__img" id="pmImg" aria-hidden="true"></div>
+        <div class="pm__info">
+          <div class="pm__meta">
+            <span class="chip" id="pmCategory">—</span>
+            <span class="chip chip--soft" id="pmSize">—</span>
+            <span class="chip chip--soft" id="pmCond">—</span>
+          </div>
+          <p class="muted" id="pmDesc">—</p>
+          <div class="pm__buy">
+            <div>
+              <div class="price" id="pmPrice">—</div>
+              <div class="muted small" id="pmStock">—</div>
+            </div>
+            <button class="btn btn--primary" id="pmAdd" type="button">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart drawer -->
+  <aside class="drawer" id="cartDrawer" aria-label="Keranjang" hidden>
+    <div class="drawer__head">
+      <div>
+        <h3>Keranjang</h3>
+        <p class="muted small" id="cartSub">0 item</p>
+      </div>
+      <button class="iconBtn" id="btnCloseCart" aria-label="Tutup">✕</button>
+    </div>
+
+    <div class="drawer__body" id="cartItems"></div>
+
+    <div class="drawer__footer">
+      <div class="row">
+        <span class="muted">Subtotal</span>
+        <strong id="cartSubtotal">Rp 0</strong>
+      </div>
+      <div class="row">
+        <span class="muted">Estimasi ongkir</span>
+        <span id="cartShip">Rp 15.000</span>
+      </div>
+      <div class="row row--total">
+        <span>Total</span>
+        <strong id="cartTotal">Rp 0</strong>
+      </div>
+
+      <button class="btn btn--primary wfull" id="btnCheckout" type="button">Checkout</button>
+      <button class="btn btn--ghost wfull" id="btnClearCart" type="button">Kosongkan</button>
+      <p class="muted small">Pembayaran & pengiriman ini simulasi (demo).</p>
+    </div>
+  </aside>
+
+  <!-- Checkout modal -->
+  <section class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Checkout" hidden>
+    <div class="modal__head">
+      <h3>Checkout (Demo)</h3>
+      <button class="iconBtn" id="btnCloseCheckout" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal__body">
+      <form class="checkout" id="checkoutForm">
+        <div class="form__row">
+          <div class="input">
+            <label for="coName">Nama</label>
+            <input id="coName" required placeholder="Nama penerima" />
+          </div>
+          <div class="input">
+            <label for="coPhone">No. HP</label>
+            <input id="coPhone" required placeholder="08xxxxxxxxxx" inputmode="numeric" />
+          </div>
+        </div>
+
+        <div class="input">
+          <label for="coAddr">Alamat</label>
+          <textarea id="coAddr" rows="3" required placeholder="Alamat lengkap..."></textarea>
+        </div>
+
+        <div class="form__row">
+          <div class="select">
+            <label for="coPay">Metode Bayar</label>
+            <select id="coPay" required>
+              <option value="transfer">Transfer Bank</option>
+              <option value="ewallet">E-Wallet</option>
+              <option value="cod">COD</option>
+            </select>
+          </div>
+          <div class="select">
+            <label for="coShip">Kurir</label>
+            <select id="coShip" required>
+              <option value="reg">Reguler (1–3 hari)</option>
+              <option value="exp">Express (1 hari)</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn--primary wfull" type="submit">Buat Pesanan</button>
+        <p class="muted small">Setelah submit, keranjang akan dikosongkan (simulasi sukses).</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
