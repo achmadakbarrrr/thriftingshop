@@ -146,7 +146,6 @@ function esc(s){
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
 }
-
 /* Product modal */
 function openProduct(id){
   const p = PRODUCTS.find(x=>x.id===id);
