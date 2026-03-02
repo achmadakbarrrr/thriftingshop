@@ -1,0 +1,33 @@
+PRAGMA journal_mode = WAL;
+
+CREATE TABLE IF NOT EXISTS products (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  brand TEXT NOT NULL,
+  category TEXT NOT NULL,
+  size TEXT NOT NULL,
+  condition TEXT NOT NULL,
+  price INTEGER NOT NULL,
+  stock INTEGER NOT NULL DEFAULT 1,
+  description TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  customer_name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  address TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  total INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_id INTEGER NOT NULL,
+  product_id INTEGER NOT NULL,
+  title TEXT NOT NULL,
+  price INTEGER NOT NULL,
+  qty INTEGER NOT NULL,
+  FOREIGN KEY(order_id) REFERENCES orders(id)
+);
